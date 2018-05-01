@@ -97,14 +97,14 @@ def dept_staff_counts
   # the number of staff. Structure your JOIN to ensure that the
   # Engineering department is listed.
   execute(<<-SQL)
-  -- SELECT
-  --   name, COUNT(depts.id)
-  -- FROM
-  --   depts
-  -- GROUP BY
-  --   name 
-
-
+  SELECT
+    depts.name, COUNT(teachers.id)
+  FROM
+    depts
+  LEFT OUTER JOIN
+    teachers ON teachers.dept_id = depts.id
+  GROUP BY
+    depts.name
   SQL
 end
 
@@ -112,6 +112,18 @@ def teachers_and_divisions
   # Use CASE to show the name of each teacher followed by 'Sci' if
   # the the teacher is in dept 1 or 2 and 'Art' otherwise.
   execute(<<-SQL)
+  SELECT
+    name,
+    CASE dept_id
+    WHEN 1 THEN
+      'Sci'
+    WHEN 2 THEN
+      'Sci'
+    ELSE
+      'Art'
+    END
+  FROM
+    teachers
   SQL
 end
 
@@ -120,5 +132,19 @@ def teachers_and_divisions_two
   # the teacher is in dept 1 or 2, 'Art' if the dept is 3, and
   # 'None' otherwise.
   execute(<<-SQL)
+  SELECT
+    name,
+    CASE  dept_id
+    WHEN 1 THEN
+      'Sci'
+    WHEN 2 THEN
+      'Sci'
+    WHEN 3 THEN
+      'Art'
+    ELSE
+      'None'
+    END
+  FROM
+    teachers 
   SQL
 end
